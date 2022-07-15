@@ -14,9 +14,11 @@ function handler() {
 
     # BLOCK
     echo -n "- BLOCKs:" 1>&2;
-    echo $(find . -name "aws-*" | xargs jq 'select(.action == "BLOCK") | {uri: .httpRequest.uri}' | grep -v "}" | grep -v "{" | grep "${GREP}" | wc -l)  1>&2;
+    echo $(find . -name "aws-*" | xargs jq 'select(.action == "BLOCK") | {uri: .httpRequest.uri}' \
+        | grep -v "}" | grep -v "{" | grep "${GREP}" | wc -l)  1>&2;
 
     # ALLOW
     echo -n "- ALLOWs:" 1>&2;
-    echo $(find . -name "aws-*" | xargs jq 'select(.action == "ALLOW") | {uri: .httpRequest.uri}' | grep -v "}" | grep -v "{" | grep "${GREP}" | wc -l)  1>&2;
+    echo $(find . -name "aws-*" | xargs jq 'select(.action == "ALLOW") | {uri: .httpRequest.uri}' \
+        | grep -v "}" | grep -v "{" | grep "${GREP}" | wc -l)  1>&2;
 }
