@@ -21,4 +21,15 @@ function handler() {
     echo -n "- ALLOWs:" 1>&2;
     echo $(find . -name "aws-*" | xargs jq 'select(.action == "ALLOW") | {uri: .httpRequest.uri}' \
         | grep -v "}" | grep -v "{" | grep "${GREP}" | wc -l)  1>&2;
+
+    # FILTER
+    echo "- FILTERs:" 1>&2;
+    # この grep -v をパイプラインで繋ぐのは改修したい
+    # 外部ファイルに切り出す方法を試したが、Lambda 上だと切り出したファイルが見つからないとなってしまった
+    echo $(find . -name "aws-*" | xargs jq 'select(.action == "ALLOW") | {uri: .httpRequest.uri}' \
+        | grep -v "}" | grep -v "{" \
+        | grep -v '/_static/[0-9]*/sentry/*' | grep -v '/api/[0-9]/*' | grep -v '/api/v1/*' \
+        | grep -v '/buyer/*' | grep -v '/css/*' | grep -v '/favicon.ico' | grep -v '/index.html' \
+        | grep -v '/isfw_assets/*' | grep -v '/manager/*' | grep -v '/manual/*' | grep -v '/privacy.html' \
+        | grep -v '/terms.html' | grep -v '/trust-dx-sentry/*' | grep -v '/logo_reaas_128.png')  1>&2;
 }
