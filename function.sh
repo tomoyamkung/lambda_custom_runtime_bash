@@ -19,11 +19,6 @@ EOL
         | xargs --null jq 'select(.action == "BLOCK") | {uri: .httpRequest.uri}' \
         | grep -v "}" | grep -v "{" | grep -c "${GREP}")
 
-    # # ALLOW
-    # ALLOW=$(find . -name "aws-*" -print0 \
-    #     | xargs --null jq 'select(.action == "ALLOW") | {uri: .httpRequest.uri}' \
-    #     | grep -v "}" | grep -v "{" | grep -c "${GREP}")
-
     # ALLOW
     # この grep -v をパイプラインで繋ぐのは改修したい
     # 外部ファイルに切り出す方法を試したが、Lambda 上だと切り出したファイルが見つからないとなってしまった
