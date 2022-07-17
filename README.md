@@ -8,6 +8,7 @@
 - 必要なライブラリのインストール
 - aws cli の実行
 - 環境変数の設定と参照
+- Slack への通知
 
 ## 事前準備
 
@@ -83,6 +84,7 @@ Lambda に次の環境変数を設定しておき、プログラムから値を�
 | :---: | :--- |
 | BUCKET | プログラムから参照する S3 のバケット名 |
 | GREP | S3 からダウンロードしたファイルを `grep` する正規表現 |
+| SLACK_WEBHOOK_URL | 実行結果を通知する Slack の Webhook URL |
 
 これらの環境変数は environment.conf に定義する。
 environment.conf は environment.conf.sample をコピーして作成する。
@@ -93,8 +95,9 @@ environment.conf は environment.conf.sample をコピーして作成する。
 ➜  cat environment.conf
 GREP="value1"
 BUCKET="value2"
+SLACK_WEBHOOK_URL="value3"
 
-➜  vim environment.conf  #=> エディタで environment.conf の value1, value2 を適切な内容に更新する
+➜  vim environment.conf  #=> エディタで environment.conf の value1, value2 などを適切な内容に更新する
 ```
 
 環境変数を `aws lambda` を使って Lambda に反映する。

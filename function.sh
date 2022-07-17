@@ -39,7 +39,7 @@ EOL
         | grep -v '/terms.html' \
         | grep -v '/trust-dx-sentry/*' \
         | grep -v '/logo_reaas_128.png' \
-        | sort | uniq)
+        | sort | uniq | awk '{print $2}' | sed -e 's/\"//g')
 
     LOG=$(cat << EOL
 === LOG ===
@@ -51,4 +51,6 @@ EOL
 EOL
     )
     echo "${LOG}" 1>&2;
+
+    curl -X POST -H 'Content-type: application/json' -d "{\"text\":\"${ALLOW}\"}" "${SLACK_WEBHOOK_URL}"
 }
