@@ -41,8 +41,8 @@ EOL
         | grep -v '/logo_reaas_128.png' \
         | sort | uniq)
 
-    WAFLOG=$(cat << EOL
-=== WAF LOG ===
+    LOG=$(cat << EOL
+=== LOG ===
 - DATE:${YESTERDAY}
 - BUCKET:${BUCKET}
 - files:$(find . -name "aws-*" | wc -l)
@@ -50,5 +50,5 @@ EOL
 - ALLOWs:${ALLOW}
 EOL
     )
-    echo "${WAFLOG}" 1>&2;
+    echo "${LOG}" 1>&2;
 }
