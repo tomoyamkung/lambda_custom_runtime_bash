@@ -1,3 +1,6 @@
-*.zip
+.aws-sam/
 *.conf
+*.toml
+*.yaml
+*.zip
 work

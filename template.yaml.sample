@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  BashCustomRuntimeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Environment:
+        Variables:
+          GREP: "value1"  # TBD
+          BUCKET: "value2"  # TBD
+          SLACK_WEBHOOK_URL: "value3"  # TBD
+      Events:
+        Timer:
+          Type: Schedule
+          Properties:
+            Name: eventbridge_custom_runtime_bash
+            Schedule: cron(30 0 * * ? *)
+      FunctionName: func
+      Handler: function.handler
+      Role: arn:aws:iam::xxx:role/xxx  # TBD
+      Runtime: provided
+      Timeout: 180
+    Metadata:
+      BuildMethod: makefile
