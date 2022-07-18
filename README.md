@@ -9,6 +9,7 @@
 - aws cli の実行
 - 環境変数の設定と参照
 - Slack への通知
+- シェルスクリプトから外部ファイルの参照
 
 ## 事前準備
 
@@ -41,9 +42,10 @@ CLI から Lambda へデプロイするために必要。
 
 - bootstrap
 - function.sh
+- filter.conf
 
 ```sh
-➜  zip function.zip function.sh bootstrap
+➜  zip function.zip function.sh bootstrap filter.conf
 ```
 
 作成した zip ファイルを `aws lambda` を使って Lambda にデプロイする。
@@ -62,9 +64,10 @@ CLI から Lambda へデプロイするために必要。
 
 - bootstrap
 - function.sh
+- filter.conf
 
 ```sh
-➜  zip function.zip function.sh bootstrap
+➜  zip function.zip function.sh bootstrap filter.conf
 ```
 
 作成した zip ファイルを `aws lambda` を使って Lambda にデプロイする。
@@ -116,4 +119,22 @@ Variables は `Variables='{GREP="value1",BUCKET="value2"}'` の形式で指定�
 
 ```sh
 {`cat environment.conf | tr -s "\n" | tr '\n' ','`}
+```
+
+## フィルタの設定
+
+WAF を通過した URI をリストする。
+通過した URI はアプリケーション的に正しい URI が多いため、`grep -v` で除外する。
+この除外する URI は filter.conf に定義する。
+filter.conf は filter.conf.sample をコピーして作成する。
+
+```sh
+➜  cp filter.conf.sample filter.conf
+
+➜  cat filter.conf
+uri1
+uri2
+uri3
+
+➜  vim filter.conf  #=> エディタで filter.conf の uri1, uri2 などを適切な内容に更新する
 ```
