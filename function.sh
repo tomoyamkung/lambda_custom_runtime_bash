@@ -24,7 +24,7 @@ EOL
         | xargs --null jq 'select(.action == "ALLOW") | {uri: .httpRequest.uri}' \
         | grep -v "}" | grep -v "{" \
         | grep -vf /tmp/filter.conf \
-        | sort | uniq | awk '{print $2}' | sed -e 's/\"//g')
+        | sort | uniq -c | sort -nr | awk -v 'OFS=:' '{print $3,$1}' | sed -e 's/\"//g')
 
     LOG=$(cat << EOL
 === LOG ===
